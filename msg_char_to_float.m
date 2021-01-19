@@ -6,5 +6,5 @@ function num = msg_char_to_float(chr_1, chr_0)
     else
         num = int16(bitor(bitshift(bitand(chr_1, 127), 8), chr_0));
     end
-    num = double(num) / 100;
+    num = double(num) / 100.0;
 end
