@@ -1,4 +1,12 @@
 function [chr_1, chr_0] = msg_float_to_char(num)
+% 
+% [chr_1, chr_0] = msg_float_to_char(num)
+%
+% A float data convert to two char data.
+% Notation: num*100 must less than 16 bits
+% @ mum: input data;
+% @ chr_1: output char 1, higher 8 bit; 
+% @ chr_0: output char 0, lower 8 bit.
 
 num = int16(num*100);
 if num < 0

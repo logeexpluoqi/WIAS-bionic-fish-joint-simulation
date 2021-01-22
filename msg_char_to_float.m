@@ -1,4 +1,12 @@
 function num = msg_char_to_float(chr_1, chr_0)
+%
+% num = msg_char_to_float(chr_1, chr_0)
+%
+% Two char data convert to a float data.
+% @ chr_1: input char 1, higher byte;
+% @ chr_0: input cahr 2, lower byte;
+% @ num: output float data.
+
     chr_1 = uint16(chr_1);
     chr_0 = uint16(chr_0);
     if bitand(chr_1, 128) == 128

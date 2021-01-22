@@ -2,20 +2,20 @@ clear; clc;
 
 t = 0:0.01:1000;
 
-A = 10;
+A = 25;
 W = 10;
 frq = 100;
 
 wave = A*sin(W*t);
 [row, col] = size(wave);
 
-mode = 0 ;
+mode = 4 ;
 id = 1;
 P = 0;
 V = 6;
 T = 0;
-Kp = 10;
-Kd = 2;
+Kp = 0;
+Kd = 3;
 
 serial_port = serialport("COM3", 115200, 'Timeout', 0.1);
 % figure(1); hold on;
@@ -43,13 +43,17 @@ for vt  =  1:col
     write(serial_port, msg, "uint8");
     
     pause(1/frq);
-    rx = read(serial_port, 7, "uint8");
-    motor_p = msg_char_to_float(rx(2), rx(3));
-    motor_v = msg_char_to_float(rx(4), rx(5));
-    motor_t = msg_char_to_float(rx(6), rx(7));
-    fprintf("ID: %d, ", rx(1));
-    fprintf("P: %.2f, V: %.2f, T:%.2f\n\n", motor_p, motor_v, motor_t);
-% %     plot(vt*0.01, sin_wave(vt),'.');
+    rx = read(serial_port, 9, "uint8");
+    if rx(1) == '{' && rx(9) == '}'
+        motor_p = msg_char_to_float(rx(3), rx(4));
+        motor_v = msg_char_to_float(rx(5), rx(6));
+        motor_t = msg_char_to_float(rx(7), rx(8));
+        fprintf("\nP_dst: %04.2f, V_dst: %04.2f, T_dst: %04.2f\n", P, V, T);
+        fprintf("ID: %d, ", rx(2));
+        fprintf("P: %.2f, V: %.2f, T:%.2f\n\n", motor_p, motor_v, motor_t);
+    else
+        fprintf("RX ERROR\n");
+    end
     
 end
 % clear serial_port;

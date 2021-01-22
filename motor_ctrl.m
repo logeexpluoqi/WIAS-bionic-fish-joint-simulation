@@ -8,12 +8,12 @@ music = [1, -1, 1, -1, 5, -1, 5, -1, 6, -1, 6, -1, 5, 0, -1, ...
          4, -1, 4, -1, 3, -1, 3, -1, 2, -1, 2, -1, 1, 0];
        
 [row, col] = size(music);
-bais = 2;
+bais = 02;
 
 cir_times = 100;
 
 ctrl_mode = 2;
-mode = 0;
+mode = 4;
 id = 1;
 P = 0;
 V = 0;
@@ -70,12 +70,17 @@ for times = 1:cir_times
         else
             pause(0.1);
         end
-        rx = read(serial_port, 7, "uint8");
-        motor_p = msg_char_to_float(rx(2), rx(3));
-        motor_v = msg_char_to_float(rx(4), rx(5));
-        motor_t = msg_char_to_float(rx(6), rx(7));
-        fprintf("ID: %d, ", rx(1));
-        fprintf("P: %.2f, V: %.2f, T:%.2f\n\n", motor_p, motor_v, motor_t);
+        rx = read(serial_port, 9, "uint8");
+        if rx(1) == '{' && rx(9) == '}'
+            motor_p = msg_char_to_float(rx(3), rx(4));
+            motor_v = msg_char_to_float(rx(5), rx(6));
+            motor_t = msg_char_to_float(rx(7), rx(8));
+            fprintf("\nP_dst: %04.2f, V_dst: %04.2f, T_dst: %04.2f\n", P, V, T);
+            fprintf("ID: %d, ", rx(2));
+            fprintf("P: %.2f, V: %.2f, T:%.2f\n\n", motor_p, motor_v, motor_t);
+        else
+            fprintf("RX ERROR\n");
+        end
     
     end
 end
