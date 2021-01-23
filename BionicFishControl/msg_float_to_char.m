@@ -1,9 +1,8 @@
-%%
- % @Author: luoqi 
- % @Date: 2021-01-22 20:58:21 
- % @Last Modified by:   luoqi 
- % @Last Modified time: 2021-01-22 20:58:21 
- %%
+% @Author: luoqi 
+% @Date: 2021-01-22 20:58:21 
+% @Last Modified by:   luoqi 
+% @Last Modified time: 2021-01-22 20:58:21 
+
 function [chr_1, chr_0] = msg_float_to_char(num)
 % 
 % [chr_1, chr_0] = msg_float_to_char(num)

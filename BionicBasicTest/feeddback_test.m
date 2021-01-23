@@ -22,9 +22,8 @@ msg(2) = mode;
 [Kd_h, Kd_l] = msg_float_to_char(Kd);
 
 motor_ctrl_data = [id, P_h, P_l, V_h, V_l, T_h, T_l, Kp_h, Kp_l, Kd_h, Kd_l];
-for i = 3:1:13
-   msg(i) = motor_ctrl_data(i-2); 
-end
+
+msg(3:13) = motor_ctrl_data; 
 
 info = zeros(TX_n, 3);
 
