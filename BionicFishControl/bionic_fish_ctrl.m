@@ -5,35 +5,45 @@
 clear; clc;
 
 %% Parameter initialize
-T_LIMIT = 100000;
+T_LIMIT = 1000;
 MOTOR_NUM  = 4;
 
 mode  = 4; 
-P_dst = zeros(MOTOR_NUM, 1);
-V_dst = zeros(MOTOR_NUM, 1);
-T_dst = zeros(MOTOR_NUM, 1);
-Kp    = zeros(MOTOR_NUM, 1);
-Kd    = zeros(MOTOR_NUM, 1);
 
-motor_id            = [1, 2, 3, 4];
-motor_feedback_data = zeros(T_LIMIT, 3, MOTOR_NUM);
-motor_input         = zeros(MOTOR_NUM, T_LIMIT, 3);
+motor_id = [1, 2, 3, 4];
+
+% (:,:,1), P;  (:,:,2), V;  (:,:,3), T 
+motor_feedback_data = zeros(MOTOR_NUM, T_LIMIT, 3);
+
+% (:,:,1), P;  (:,:,2), V; (:,:,3), T;
+% (:,:,4), Kp; (:,:,5), Kd
+motor_input         = zeros(MOTOR_NUM, T_LIMIT, 5);
+
+%% Motor parameter
+for num = 1:1:MOTOR_NUM
+    motor_input(num, :, 4) = 30*ones(T_LIMIT,1); % Kp curve
+    motor_input(num, :, 5) = 2.4*ones(T_LIMIT,1); % Kd curve
+end
 
 %% Motor motion curve
-for i = 1:1:MOTOR_NUM
-    motor_input(MOTOR_NUM, :, 1) = sin(T_LIMIT); % P curve
-    motor_input(MOTOR_NUM, :, 2) = sin(T_LIMIT); % V curve
-    motor_input(MOTOR_NUM, :, 3) = sin(T_LIMIT); % T curve
+for num = 1:1:MOTOR_NUM
+    motor_input(num, :, 1) = (pi/3)*sin((0.1:0.1:T_LIMIT/10)*5); % P curve
+    motor_input(num, :, 2) = zeros(T_LIMIT, 1); % V curve
+    motor_input(num, :, 3) = zeros(T_LIMIT, 1); % T curve
 end
 
 %% Data distribute
+% (:,:,1), id; (:,:,2), P;  (:,:,3), V;
+% (:,:,4), T;  (:,:,5), Kp; (:,:,6), Kd
 motor_ctrl_data = zeros(MOTOR_NUM, T_LIMIT, 6);
 for num = 1:1:MOTOR_NUM
-    motor_ctrl_data(num, :, 1) = motor_id(num);
-    motor_ctrl_data(num, :, 5) = Kp(num);
-    motor_ctrl_data(num, :, 6) = Kd(num);
+    motor_ctrl_data(num, :, 1) = motor_id(num); % id
+    motor_ctrl_data(num, :, 2) = motor_input(num, :, 1); % P
+    motor_ctrl_data(num, :, 3) = motor_input(num, :, 2); % V
+    motor_ctrl_data(num, :, 4) = motor_input(num, :, 3); % T
+    motor_ctrl_data(num, :, 5) = motor_input(num, :, 4); % Kp
+    motor_ctrl_data(num, :, 6) = motor_input(num, :, 5); % Kd
 end
-
 
 %% Unlock motor
 if mode == 1
@@ -58,24 +68,14 @@ elseif mode == 4
     serial_port = serialport("COM3", 115200, 'Timeout', 0.1);
 
     msg = uint8(zeros(1, 30));
-    msg(1) = uint8(123); % '{', start of frame
+    msg(1) = uint8(123);  % '{', start of frame
     msg(30) = uint8(125); % '}', end of frame
-    msg(4) = mode;
+    msg(2) = mode;
 
     %% Control motor
     for t = 1:1:T_LIMIT
-
         for num = 1:1:MOTOR_NUM
-            id = motor_ctrl_data(num, t, 1);
-            [P_h, P_l]   = msg_float_to_char(motor_ctrl_data(num, t, 2));
-            [V_h, V_l]   = msg_float_to_char(motor_ctrl_data(num, t, 3));
-            [T_h, T_l]   = msg_float_to_char(motor_ctrl_data(num, t, 4));
-            [Kp_h, Kp_l] = msg_float_to_char(motor_ctrl_data(num, t, 5));
-            [Kd_h, Kd_l] = msg_float_to_char(motor_ctrl_data(num, t, 6));
-
-            send_data = [id, P_h, P_l, V_h, V_l, T_h, T_l, Kp_h, Kp_l, Kd_h, Kd_l];
-
-            msg(3:13) = send_data; 
+            msg(3:13) = data_convert(motor_ctrl_data, num, t); 
             write(serial_port, msg, "uint8");
         end
     end
