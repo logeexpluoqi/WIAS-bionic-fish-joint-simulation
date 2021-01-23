@@ -6,14 +6,14 @@ clear; clc;
 
 %% Parameter initialize
 T_LIMIT = 1000;
-MOTOR_NUM  = 4;
+MOTOR_NUM  = 2;
 
 mode  = 4; 
 
-motor_id = [1, 2, 3, 4];
+motor_id = [1, 17, 3, 4];
 
-% (:,:,1), P;  (:,:,2), V;  (:,:,3), T 
-motor_feedback_data = zeros(MOTOR_NUM, T_LIMIT, 3);
+% (:,:,1), id;  (:,:,2), P;  (:,:,3), V; (:,:,4), T 
+motor_feedback_data = zeros(MOTOR_NUM, T_LIMIT, 4);
 
 % (:,:,1), P;  (:,:,2), V; (:,:,3), T;
 % (:,:,4), Kp; (:,:,5), Kd
@@ -27,7 +27,7 @@ end
 
 %% Motor motion curve
 for num = 1:1:MOTOR_NUM
-    motor_input(num, :, 1) = (pi/3)*sin((0.1:0.1:T_LIMIT/10)*5); % P curve
+    motor_input(num, :, 1) = (pi/3)*sin((0.1:0.1:T_LIMIT/10)); % P curve
     motor_input(num, :, 2) = zeros(T_LIMIT, 1); % V curve
     motor_input(num, :, 3) = zeros(T_LIMIT, 1); % T curve
 end
@@ -75,8 +75,13 @@ elseif mode == 4
     %% Control motor
     for t = 1:1:T_LIMIT
         for num = 1:1:MOTOR_NUM
-            msg(3:13) = data_convert(motor_ctrl_data, num, t); 
+            msg(3:13) = data_tx_convert(motor_ctrl_data, num, t); 
             write(serial_port, msg, "uint8");
+%             try
+                motor_feedback_data(num, t, :) = data_rx_convert(read(serial_port, 9, "uint8"));
+%             catch err
+%                 fprintf("err\n");
+%             end
         end
     end
 end
