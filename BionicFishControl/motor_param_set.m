@@ -1,14 +1,14 @@
-% @Author: luoqi 
-% @Date: 2021-01-24 13:36:23 
-% @Last Modified by:   luoqi 
-
-function param = motor_param_set(num, T_LIMIT, param_type, ctrl_type)
 % param = motor_param_set(num, T_LIMIT, param_type, ctrl_type);
 % @param num: Motor number
 % @param T_LIMIT: time range
 % @param param_type: "Kp" or 'Kd'
 % @param ctrl_type: "P_Ctrl" or "V_Ctrl" or "T_Ctrl"
 
+% @Author: luoqi 
+% @Date: 2021-01-24 13:36:23 
+% @Last Modified by:   luoqi 
+
+function param = motor_param_set(num, T_LIMIT, param_type, ctrl_type)
     %% Motor 1
     if num == 1
         switch param_type 

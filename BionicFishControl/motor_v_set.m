@@ -1,12 +1,12 @@
+% v_curve = motor_v_set(motor_num, T_LIMIT);
+% @param motor_num: motor number
+% @param T_LIMIT: time range
+
 % @Author: luoqi 
 % @Date: 2021-01-24 16:06:16 
 % @Last Modified by:   luoqi 
 
 function v_curve = motor_v_set(motor_num, T_LIMIT)
-% v_curve = motor_v_set(motor_num, T_LIMIT);
-% @param motor_num: motor number
-% @param T_LIMIT: time range
-
     switch motor_num
     case 1
         v_curve = zeros(1, T_LIMIT);
