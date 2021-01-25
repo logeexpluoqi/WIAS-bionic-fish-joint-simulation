@@ -1,19 +1,16 @@
-%%
- % @Author: luoqi 
- % @Date: 2021-01-22 20:32:17 
- % @Last Modified by:   luoqi 
- % @Last Modified time: 2021-01-22 20:32:17 
- %%
-function [chr_1, chr_0] = msg_float_to_char(num)
-% 
 % [chr_1, chr_0] = msg_float_to_char(num)
-%
 % A float data convert to two char data.
 % Notation: num*100 must less than 16 bits
 % @ mum: input data;
 % @ chr_1: output char 1, higher 8 bit; 
 % @ chr_0: output char 0, lower 8 bit.
 
+% @Author: luoqi 
+% @Date: 2021-01-22 20:58:21 
+% @Last Modified by:   luoqi 
+% @Last Modified time: 2021-01-22 20:58:21 
+
+function [chr_1, chr_0] = f_msg_float_to_char(num)
 num = int16(num*100);
 if num < 0
     num = -num;
