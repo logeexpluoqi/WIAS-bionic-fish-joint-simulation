@@ -2,7 +2,7 @@
 % @Date: 2021-01-23 14:26:10 
 % @Last Modified by:   luoqi 
 
-function state = set_zero(id)
+function state = f_set_zero(id)
     mode = 3;
     P  = 0; V  = 0; T = 0;
     Kp = 0; Kd = 0;

@@ -2,7 +2,7 @@
 % @Date: 2021-01-23 14:24:35 
 % @Last Modified by:   luoqi 
 
-function state = unlock_motor(id)
+function state = f_unlock_motor(id)
     mode = 1;
     P  = 0; V  = 0; T = 0;
     Kp = 0; Kd = 0;

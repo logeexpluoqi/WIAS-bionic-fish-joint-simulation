@@ -6,7 +6,7 @@
 % @Date: 2021-01-24 16:06:16 
 % @Last Modified by:   luoqi 
 
-function t_curve = motor_t_set(motor_num, T_LIMIT)
+function t_curve = f_motor_t_set(motor_num, T_LIMIT)
     switch motor_num
     case 1
         t_curve = zeros(1, T_LIMIT);

@@ -6,7 +6,7 @@
 % @Date: 2021-01-24 16:06:16 
 % @Last Modified by:   luoqi 
 
-function v_curve = motor_v_set(motor_num, T_LIMIT)
+function v_curve = f_motor_v_set(motor_num, T_LIMIT)
     switch motor_num
     case 1
         v_curve = zeros(1, T_LIMIT);

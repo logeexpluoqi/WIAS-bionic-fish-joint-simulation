@@ -6,10 +6,11 @@
 % @Date: 2021-01-24 16:06:16 
 % @Last Modified by:   luoqi 
  
-function p_curve = motor_p_set(motor_num, T_LIMIT)
+function p_curve = f_motor_p_set(motor_num, T_LIMIT)
     switch motor_num
     case 1
-        p_curve = zeros(1, T_LIMIT);
+        p_curve(1:100) = zeros(1,100);
+        p_curve(101:T_LIMIT) = -3.14*ones(1, T_LIMIT-100);
     case 2
         p_curve = zeros(1, T_LIMIT);
     case 3

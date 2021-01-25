@@ -2,7 +2,7 @@
 % @Date: 2021-01-23 14:25:20 
 % @Last Modified by:   luoqi 
 
-function state = lock_motor(id)
+function state = f_lock_motor(id)
     mode = 2;
     P  = 0; V  = 0; T = 0;
     Kp = 0; Kd = 0;
