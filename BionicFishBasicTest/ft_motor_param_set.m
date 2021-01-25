@@ -8,7 +8,7 @@
 % @Date: 2021-01-24 13:36:23 
 % @Last Modified by:   luoqi 
 
-function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
+function param = ft_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
     %% Motor 1
     if num == 1
         switch param_type 

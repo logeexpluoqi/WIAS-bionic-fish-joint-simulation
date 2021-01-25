@@ -2,7 +2,7 @@
 % @Date: 2021-01-23 14:24:35 
 % @Last Modified by:   luoqi 
 
-function state = f_unlock_motor(id)
+function state = ft_unlock_motor(id)
     mode = 1;
     P  = 0; V  = 0; T = 0;
     Kp = 0; Kd = 0;
@@ -12,11 +12,11 @@ function state = f_unlock_motor(id)
     msg(1) = uint8(123); % '{', start of frame
     msg(30) = uint8(125); % '}', end of frame
     msg(2) = mode;
-    [P_h, P_l] = msg_float_to_char(P);
-    [V_h, V_l] = msg_float_to_char(V);
-    [T_h, T_l] = msg_float_to_char(T);
-    [Kp_h, Kp_l] = msg_float_to_char(Kp);
-    [Kd_h, Kd_l] = msg_float_to_char(Kd);
+    [P_h, P_l]   = ft_msg_float_to_char(P);
+    [V_h, V_l]   = ft_msg_float_to_char(V);
+    [T_h, T_l]   = ft_msg_float_to_char(T);
+    [Kp_h, Kp_l] = ft_msg_float_to_char(Kp);
+    [Kd_h, Kd_l] = ft_msg_float_to_char(Kd);
 
     motor_ctrl_data = [id, P_h, P_l, V_h, V_l, T_h, T_l, Kp_h, Kp_l, Kd_h, Kd_l];
     msg(3:13) = motor_ctrl_data; 

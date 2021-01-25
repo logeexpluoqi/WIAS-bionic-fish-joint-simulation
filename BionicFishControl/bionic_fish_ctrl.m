@@ -7,6 +7,8 @@ clear; clc; close all;
 %% Parameter initialize
 T_LIMIT = 300;
 
+% 1: unlock;    2: lock; 
+% 3: set zero;  4: motor control
 mode  = 4; 
 
 % 'P_Ctrl', 'V_Ctrl', 'T_Ctrl'
@@ -58,19 +60,19 @@ end
 %% Unlock motor
 if mode == 1
     for num = 1:1:MOTOR_NUM
-        unlock_motor(motor_id(num));
+        f_unlock_motor(motor_id(num));
     end
 
 %% Lock motor
 elseif mode == 2
     for num = 1:1:MOTOR_NUM
-        lock_motor(motor_id(num));
+        f_lock_motor(motor_id(num));
     end
 
 %% Set zero
 elseif mode == 3
     for num = 1:1:MOTOR_NUM
-        set_zero(motor_id(num))
+        f_set_zero(motor_id(num))
     end
 
 %% Control data frame define

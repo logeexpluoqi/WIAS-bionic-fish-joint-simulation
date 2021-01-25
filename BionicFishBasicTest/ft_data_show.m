@@ -2,7 +2,7 @@
 % @Date: 2021-01-25 09:36:37 
 % @Last Modified by:   luoqi 
 
-function f_data_show(num, org, dst, T_LIMIT)
+function ft_data_show(num, org, dst, T_LIMIT)
 
     t = 1:1:T_LIMIT;
     

@@ -9,7 +9,7 @@
 % @Last Modified by:   luoqi 
 % @Last Modified time: 2021-01-22 20:57:40 
 
-function num = f_msg_char_to_float(chr_1, chr_0)
+function num = ft_msg_char_to_float(chr_1, chr_0)
     chr_1 = uint16(chr_1);
     chr_0 = uint16(chr_0);
     if bitand(chr_1, 128) == 128
