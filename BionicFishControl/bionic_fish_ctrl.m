@@ -39,9 +39,9 @@ end
 
 %% Motor motion curve
 for num = 1:1:MOTOR_NUM
-    motor_input(num, :, 1) = f_motor_p_set(num, T_LIMIT); % P curve
-    motor_input(num, :, 2) = f_motor_v_set(num, T_LIMIT); % V curve
-    motor_input(num, :, 3) = f_motor_t_set(num, T_LIMIT); % T curve
+    motor_input(num, :, 1) = f_motor_p_set(num, T_LIMIT, ctrl_mode); % P curve
+    motor_input(num, :, 2) = f_motor_v_set(num, T_LIMIT, ctrl_mode); % V curve
+    motor_input(num, :, 3) = f_motor_t_set(num, T_LIMIT, ctrl_mode); % T curve
 end
 
 %% Data distribute
@@ -96,5 +96,8 @@ elseif mode == 4
 %             end
         end
     end
-    f_data_show(1,motor_input, motor_feedback, T_LIMIT);
+
+    for num = 1:1:MOTOR_NUM
+        f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
+    end
 end

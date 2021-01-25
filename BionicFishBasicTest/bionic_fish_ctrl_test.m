@@ -15,7 +15,7 @@ mode  = 4;
 ctrl_mode = 'P_Ctrl';
 
 % Motor id array
-motor_id = [1];
+motor_id = 17;
 
 [~, MOTOR_NUM] = size(motor_id);
 
@@ -39,9 +39,9 @@ end
 
 %% Motor motion curve
 for num = 1:1:MOTOR_NUM
-    motor_input(num, :, 1) = ft_motor_p_set(num, T_LIMIT); % P curve
-    motor_input(num, :, 2) = ft_motor_v_set(num, T_LIMIT); % V curve
-    motor_input(num, :, 3) = ft_motor_t_set(num, T_LIMIT); % T curve
+    motor_input(num, :, 1) = ft_motor_p_set(num, T_LIMIT, ctrl_mode); % P curve
+    motor_input(num, :, 2) = ft_motor_v_set(num, T_LIMIT, ctrl_mode); % V curve
+    motor_input(num, :, 3) = ft_motor_t_set(num, T_LIMIT, ctrl_mode); % T curve
 end
 
 %% Data distribute
@@ -92,5 +92,5 @@ elseif mode == 4
             motor_feedback(num, t, :) = ft_data_rx_convert(read(serial_port, 9, "uint8"));
         end
     end
-    ft_data_show(1,motor_input, motor_feedback, T_LIMIT);
+    ft_data_show(1,motor_input, motor_feedback, T_LIMIT, ctrl_mode);
 end
