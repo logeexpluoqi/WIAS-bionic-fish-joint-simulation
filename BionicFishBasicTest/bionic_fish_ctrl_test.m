@@ -7,9 +7,12 @@ clear; clc; close all;
 %% Parameter initialize
 T_LIMIT = 300;
 
-% 1: unlock;    2: lock; 
+% 1: unlock;    2: lock;
 % 3: set zero;  4: motor control
-mode  = 4; 
+mode  = 2; 
+
+% 1: enable; 0: disable 
+AUTO_UNLOCK = 1;
 
 % 'P_Ctrl', 'V_Ctrl', 'T_Ctrl'
 ctrl_mode = 'P_Ctrl';
@@ -89,7 +92,13 @@ elseif mode == 4
         for num = 1:1:MOTOR_NUM
             msg(3:13) = ft_data_tx_convert(motor_ctrl_data, num, t); 
             write(serial_port, msg, "uint8");
-            motor_feedback(num, t, :) = ft_data_rx_convert(read(serial_port, 9, "uint8"));
+            try
+                motor_feedback(num, t, :) = f_data_rx_convert(read(serial_port, 9, "uint8"));
+            catch
+                for i = 1:1:MOTOR_NUM
+                    f_lock_motor(motor_id(i));
+                end
+            end
         end
     end
     ft_data_show(1,motor_input, motor_feedback, T_LIMIT, ctrl_mode);

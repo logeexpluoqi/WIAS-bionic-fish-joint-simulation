@@ -9,13 +9,16 @@ T_LIMIT = 300;
 
 % 1: unlock;    2: lock; 
 % 3: set zero;  4: motor control
-mode  = 4; 
+mode  = 4;
+
+% 1: enable; 0: disable 
+AUTO_UNLOCK = 1;
 
 % 'P_Ctrl', 'V_Ctrl', 'T_Ctrl'
 ctrl_mode = 'P_Ctrl';
 
 % Motor id array
-motor_id = [1];
+motor_id = [1, 4, 17];
 
 [~, MOTOR_NUM] = size(motor_id);
 
@@ -24,12 +27,19 @@ motor_feedback = zeros(MOTOR_NUM, T_LIMIT, 4);
 
 % (:,:,1), P;  (:,:,2), V; (:,:,3), T;
 % (:,:,4), Kp; (:,:,5), Kd
-motor_input         = zeros(MOTOR_NUM, T_LIMIT, 5);
+motor_input    = zeros(MOTOR_NUM, T_LIMIT, 5);
 
 % %% Set motor to zero
 % for num = 1:1:MOTOR_NUM
 %     set_zero(motor_id(num))
 % end
+
+if AUTO_UNLOCK == 1
+%% Auto unlock motor
+    for num = 1:1:MOTOR_NUM
+        f_unlock_motor(motor_id(num));
+    end
+end
 
 %% Motor parameter
 for num = 1:1:MOTOR_NUM
@@ -89,15 +99,23 @@ elseif mode == 4
         for num = 1:1:MOTOR_NUM
             msg(3:13) = f_data_tx_convert(motor_ctrl_data, num, t); 
             write(serial_port, msg, "uint8");
-%             try
+            try
                 motor_feedback(num, t, :) = f_data_rx_convert(read(serial_port, 9, "uint8"));
-%             catch err
-%                 fprintf("err\n");
-%             end
+            catch
+                for i = 1:1:MOTOR_NUM
+                    f_lock_motor(motor_id(i));
+                end
+            end
         end
     end
-
+    clear serial_port;
+    
     for num = 1:1:MOTOR_NUM
         f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
+    end
+    
+    %% lock motor
+    for num = 1:1:MOTOR_NUM
+        f_lock_motor(motor_id(num));
     end
 end
