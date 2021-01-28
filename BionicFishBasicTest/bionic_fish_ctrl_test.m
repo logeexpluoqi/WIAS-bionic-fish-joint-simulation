@@ -5,17 +5,17 @@
 clear; clc; close all;
 
 %% Parameter initialize
-T_LIMIT = 300;
+T_LIMIT = 100;
 
 % 1: unlock;    2: lock;
 % 3: set zero;  4: motor control
-mode  = 2; 
+mode  = 4; 
 
 % 1: enable; 0: disable 
 AUTO_UNLOCK = 1;
 
 % 'P_Ctrl', 'V_Ctrl', 'T_Ctrl'
-ctrl_mode = 'P_Ctrl';
+ctrl_mode = 'V_Ctrl';
 
 % Motor id array
 motor_id = 17;
@@ -33,6 +33,13 @@ motor_input    = zeros(MOTOR_NUM, T_LIMIT, 5);
 % for num = 1:1:MOTOR_NUM
 %     set_zero(motor_id(num))
 % end
+
+if AUTO_UNLOCK == 1
+    %% Auto unlock motor
+    for num = 1:1:MOTOR_NUM
+        ft_unlock_motor(motor_id(num));
+    end
+end
 
 %% Motor parameter
 for num = 1:1:MOTOR_NUM
@@ -80,7 +87,7 @@ elseif mode == 3
 
 %% Control data frame define
 elseif mode == 4
-    serial_port = serialport("COM3", 115200, 'Timeout', 0.2);
+    serial_port = serialport("COM3", 921600, 'Timeout', 0.2);
 
     msg = uint8(zeros(1, 30));
     msg(1) = uint8(123);  % '{', start of frame
@@ -93,13 +100,22 @@ elseif mode == 4
             msg(3:13) = ft_data_tx_convert(motor_ctrl_data, num, t); 
             write(serial_port, msg, "uint8");
             try
-                motor_feedback(num, t, :) = f_data_rx_convert(read(serial_port, 9, "uint8"));
+                motor_feedback(num, t, :) = ft_data_rx_convert(read(serial_port, 9, "uint8"));
             catch
+                clear serial_port;
                 for i = 1:1:MOTOR_NUM
-                    f_lock_motor(motor_id(i));
+                    ft_lock_motor(motor_id(i));
                 end
+                serial_port = serialport("COM3", 921600, 'Timeout', 0.2);
             end
         end
     end
+    clear serial_port;
+    
     ft_data_show(1,motor_input, motor_feedback, T_LIMIT, ctrl_mode);
+
+    %% lock motor
+    for num = 1:1:MOTOR_NUM
+        ft_lock_motor(motor_id(num));
+    end
 end
