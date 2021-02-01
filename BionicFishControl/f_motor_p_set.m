@@ -10,20 +10,22 @@
 function p_curve = f_motor_p_set(motor_num, T_LIMIT, ctrl_mode)
     if ctrl_mode == "P_Ctrl"
         switch motor_num
-        case 1
-            A     = pi;
-            omega = 80;
+        case 1 % id: 16
+            A     = (pi/3)*3.5;
+            omega = 30;
             p_curve = A * sin(omega * (0.01:0.01:T_LIMIT/100));
-        case 2
-            A     = 10*pi;
-            omega = 1;
+        case 2 % id: 18
+            A     = (pi/4)*3;
+            omega = 20;
             p_curve = A * sin(omega * (0.01:0.01:T_LIMIT/100));
-        case 3
-            A     = 31.4;
-            omega = 10;
+        case 3 % id: 2
+            A     = (pi/4);
+            omega = 20;
             p_curve = A * sin(omega * (0.01:0.01:T_LIMIT/100));
-        case 4
-            p_curve = zeros(1, T_LIMIT);
+        case 4 % id: 5
+            A     = (pi/13);
+            omega = 45;
+            p_curve = A * sin(omega * (0.01:0.01:T_LIMIT/100));
         case 5
             p_curve = zeros(1, T_LIMIT);
         case 6

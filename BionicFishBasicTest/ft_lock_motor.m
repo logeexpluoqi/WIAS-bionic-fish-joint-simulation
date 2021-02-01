@@ -7,7 +7,8 @@ function state = ft_lock_motor(id)
     P  = 0; V  = 0; T = 0;
     Kp = 0; Kd = 0;
 
-    serial_port = serialport ("COM3", 921600, 'Timeout', 0.1);
+    port = seriallist;
+    serial_port = serialport (port, 921600, 'Timeout', 0.1);
     msg = uint8(zeros(1, 30));
     msg(1) = uint8(123); % '{', start of frame
     msg(30) = uint8(125); % '}', end of frame
