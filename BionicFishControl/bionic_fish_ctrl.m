@@ -5,7 +5,7 @@
 clear; clc; close all;
 
 %% Parameter initialize
-T_LIMIT = 300;
+T_LIMIT = 100;
  
 % 1: unlock;     2: lock; 
 % 3: set zero;  4: motor control
@@ -15,10 +15,10 @@ mode  = 4;
 AUTO_UNLOCK = 1;
 
 % 'P_Ctrl', 'V_Ctrl', 'T_Ctrl'
-ctrl_mode = 'V_Ctrl';
+ctrl_mode = 'P_Ctrl';
 
 % Motor id array
-motor_id = 3;
+motor_id = [3];
 
 [~, MOTOR_NUM] = size(motor_id);
 

@@ -23,9 +23,9 @@ function state = ft_lock_motor(id)
     msg(3:13) = motor_ctrl_data; 
     
     write(serial_port, msg, "uint8");
-    rx = read(serial_port, 9, "uint8");
-    if rx(1) == '{' && rx(9) == '}'
-        fprintf("\nID: %d, %s\n\n", id,rx(2:8));
+    rx = read(serial_port, 14, "uint8");
+    if rx(1) == '{' && rx(14) == '}'
+        fprintf("\nID: %d, %s\n\n", id,rx(2:13));
         state = "OK";
     else
         fprintf("\n**** error ****\n\n");

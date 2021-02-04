@@ -5,10 +5,10 @@
 clear; clc; close all;
 
 %% Parameter initialize
-T_LIMIT = 100;
+T_LIMIT = 5000;
 
 % 1: unlock;    2: lock;
-% 3: set zero;  4: motor control
+% 3: set zero;  4: motor control   
 mode = 4; 
 
 % 1: enable; 0: disable 
