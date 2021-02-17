@@ -9,17 +9,20 @@
 % @Last Modified by:   luoqi 
 
 function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
+
+    Kp = [100, 100, 100, 100, 100, 100, 100, 100];
+    Kd = [3.4, 3.4, 3.4, 3.4, 3.4, 3.4, 3.4, 3.4];
     %% Motor 1
     if num == 1
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = 80 * ones(1, T_LIMIT);
+                param = Kp(1) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = 3.4 * ones(1, T_LIMIT);
+            param = Kd(1) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -29,12 +32,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = 50 * ones(1, T_LIMIT);
+                param = Kp(2) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = 3.4 * ones(1, T_LIMIT);
+            param = Kd(2) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -44,12 +47,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = 80 * ones(1, T_LIMIT);
+                param = Kp(3) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = 3.4 * ones(1, T_LIMIT);
+            param = Kd(3) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -59,12 +62,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = ones(1, T_LIMIT);
+                param = Kp(4) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = ones(1, T_LIMIT);
+            param = Kd(4) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -74,12 +77,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = ones(1, T_LIMIT);
+                param = Kp(5) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = ones(1, T_LIMIT);
+            param = Kd(5) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -89,12 +92,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = ones(1, T_LIMIT);
+                param = Kp(6) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = ones(1, T_LIMIT);
+            param = Kd(6) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -104,12 +107,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = ones(1, T_LIMIT);
+                param = Kp(7) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = ones(1, T_LIMIT);
+            param = Kd(7) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end
@@ -119,12 +122,12 @@ function param = f_motor_param_set(num, T_LIMIT, param_type, ctrl_type)
         switch param_type 
         case "Kp"
             if ctrl_type == "P_Ctrl"
-                param = ones(1, T_LIMIT);
+                param = Kp(8) * ones(1, T_LIMIT);
             else
                 param = zeros(1, T_LIMIT);
             end
         case 'Kd'
-            param = ones(1, T_LIMIT);
+            param = Kd(8) * ones(1, T_LIMIT);
         otherwise
             fprintf("Error, type should be 'Kp' or 'Kd'! \n");
         end

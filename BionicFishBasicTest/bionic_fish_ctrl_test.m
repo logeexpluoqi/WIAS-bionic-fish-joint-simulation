@@ -5,10 +5,11 @@
 clear; clc; close all;
 
 %% Parameter initialize
-T_LIMIT = 5000;
+T_LIMIT = 500;
 
 % 1: unlock;    2: lock;
 % 3: set zero;  4: motor control   
+
 mode = 4; 
 
 % 1: enable; 0: disable 
@@ -31,7 +32,7 @@ motor_input    = zeros(MOTOR_NUM, T_LIMIT, 5);
 
 %% Set motor to zero
 for num = 1:1:MOTOR_NUM
-    ft_set_zero(motor_id(num))
+    ft_set_zero(motor_id(num));
 end
 
 if AUTO_UNLOCK == 1
@@ -114,6 +115,7 @@ elseif mode == 4
                 fprintf("Times: %d\n", t);
                 serial_port = serialport(port, 921600, 'Timeout', 0.2);
             end
+            fprintf("Times: %d \n", t);
         end
     end
     clear serial_port;

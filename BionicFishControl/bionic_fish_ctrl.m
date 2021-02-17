@@ -5,7 +5,7 @@
 clear; clc; close all;
 
 %% Parameter initialize
-T_LIMIT = 100;
+T_LIMIT = 1000;
  
 % 1: unlock;     2: lock; 
 % 3: set zero;  4: motor control
@@ -18,7 +18,8 @@ AUTO_UNLOCK = 1;
 ctrl_mode = 'P_Ctrl';
 
 % Motor id array
-motor_id = [3];
+motor_id = [5, 2, 18, 16, 17, 9, 4, 1];
+% motor_id = [3];
 
 [~, MOTOR_NUM] = size(motor_id);
 
@@ -31,7 +32,7 @@ motor_input    = zeros(MOTOR_NUM, T_LIMIT, 5);
 
 %% Set motor to zero
 for num = 1:1:MOTOR_NUM
-    f_set_zero(motor_id(num))
+    f_set_zero(motor_id(num));
 end
 
 if AUTO_UNLOCK == 1
@@ -114,6 +115,7 @@ elseif mode == 4
                 serial_port = serialport("COM3", 921600, 'Timeout', 0.2);
             end
         end
+        fprintf("Times: %d \n", t)
     end
     clear serial_port;
     
