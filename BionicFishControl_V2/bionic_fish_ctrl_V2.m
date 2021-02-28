@@ -90,18 +90,11 @@ elseif mode == 4
     for t = 1:1:T_LIMIT
         msg = f_get_tx_msg(motor_ctrl_data, MOTOR_NUM, t);
         write(serial_port, msg, "uint8");
-    % try
-    %     rx = read(serial_port, 6 + num*7, "uint8");
-    %     for i = 1 : num
-    %         rx_data = f_data_rx_convert(rx((4 + i*7) : (10 + i*7)));
-    %         motor_feedback(i, 1) = rx_data(1);
-    %         motor_feedback(i, 2) = rx_data(2);
-    %         motor_feedback(i, 3) = rx_data(3);
-    %         motor_feedback(i, 4) = rx_data(4);
-    %     end
-    % catch
-    %     f_lock_motor(data(:,:,1));
-    % end
+%         try
+%             rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
+%         catch
+%             f_lock_motor(motor_ctrl_data(:,:,1));
+%         end
         fprintf("Times: %d \n", t)
     end
     clear serial_port;

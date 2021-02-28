@@ -3,8 +3,8 @@
 % @Last Modified by:   luoqi 
 
 function rx_data = f_data_rx_convert(rx)
-    rx_data(1) = rx(2);
-    rx_data(2) = f_msg_char_to_float(rx(3), rx(4));
-    rx_data(3) = f_msg_char_to_float(rx(5), rx(6));
-    rx_data(4) = f_msg_char_to_float(rx(7), rx(8));
+    rx_data(1) = rx(1);
+    rx_data(2) = f_msg_char_to_float(rx(2), rx(3));
+    rx_data(3) = f_msg_char_to_float(rx(4), rx(5));
+    rx_data(4) = f_msg_char_to_float(rx(6), rx(7));
 end
