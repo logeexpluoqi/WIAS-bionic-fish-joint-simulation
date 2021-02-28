@@ -85,30 +85,23 @@ elseif mode == 3
 
 %% Control data frame define
 elseif mode == 4
-    serial_port = serialport(port, 921600, 'Timeout', 0.2);
-
-    msg = uint8(zeros(1, 30));
-    msg(1) = uint8(123);  % '{', start of frame
-    msg(30) = uint8(125); % '}', end of frame
-    msg(2) = mode;
-
     %% Control motor
+    serial_port = f_set_serialport(port);
     for t = 1:1:T_LIMIT
-%         for num = 1:1:MOTOR_NUM
-%             msg(3:13) = f_data_tx_convert(motor_ctrl_data, num, t); 
-%             write(serial_port, msg, "uint8");
-%             try
-%                 motor_feedback(num, t, :) = f_data_rx_convert(read(serial_port, 9, "uint8"));
-%             catch
-%                 clear serial_port;
-%                 for i = 1:1:MOTOR_NUM
-%                     f_lock_motor(motor_id_list(i));
-%                 end
-%                 serial_port = serialport("COM3", 921600, 'Timeout', 0.2);
-%             end
-%         end
-
-        motor_feedback(:, t, :) = f_motor_ctrl(motor_ctrl_data, :, t, serial_port);
+        msg = f_get_tx_msg(motor_ctrl_data, MOTOR_NUM, t);
+        write(serial_port, msg, "uint8");
+    % try
+    %     rx = read(serial_port, 6 + num*7, "uint8");
+    %     for i = 1 : num
+    %         rx_data = f_data_rx_convert(rx((4 + i*7) : (10 + i*7)));
+    %         motor_feedback(i, 1) = rx_data(1);
+    %         motor_feedback(i, 2) = rx_data(2);
+    %         motor_feedback(i, 3) = rx_data(3);
+    %         motor_feedback(i, 4) = rx_data(4);
+    %     end
+    % catch
+    %     f_lock_motor(data(:,:,1));
+    % end
         fprintf("Times: %d \n", t)
     end
     clear serial_port;
@@ -122,7 +115,5 @@ elseif mode == 4
     end
     
     %% lock motor
-    for num = 1:1:MOTOR_NUM
-        f_lock_motor(motor_id_list(num));
-    end
+    f_lock_motor(motor_id_list);
 end
