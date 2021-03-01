@@ -17,31 +17,31 @@ function p_curve = f_motor_p_set(motor_num, T_LIMIT, ctrl_mode)
             p_curve = A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 2 % id: 
             A     = (pi/3);
-            omega = 35;
+            omega = 5;
             p_curve = A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 3 % id: 
             A     = (pi/8);
-            omega = 35;
+            omega = 5;
             p_curve = A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 4 % id: 
             A     = (pi/8);
-            omega = 50;
+            omega = 5;
             p_curve = A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 5 % id: 
             A     = (pi/8);
-            omega = 35;
+            omega = 5;
             p_curve = -A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 6 % id: 
             A     = (pi/8);
-            omega = 50;
+            omega = 5;
             p_curve = -A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 7 % id: 
             A     = (pi/3);
-            omega = 35;
+            omega = 5;
             p_curve = -A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 8 % id: 
             A     = (pi/8);
-            omega = 35;
+            omega = 5;
             p_curve = -A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         otherwise
             p_curve = zeros(1, T_LIMIT);

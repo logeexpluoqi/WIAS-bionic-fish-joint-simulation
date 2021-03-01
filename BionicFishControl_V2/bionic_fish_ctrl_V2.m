@@ -8,7 +8,7 @@ clear; clc; close all;
 STORAGE_DATA = "Yes";
 
 %% Parameter initialize
-T_LIMIT = 100;
+T_LIMIT = 5000;
  
 % 1: unlock;     2: lock; 
 % 3: set zero;  4: motor control
@@ -90,12 +90,14 @@ elseif mode == 4
     for t = 1:1:T_LIMIT
         msg = f_get_tx_msg(motor_ctrl_data, MOTOR_NUM, t);
         write(serial_port, msg, "uint8");
-%         try
-%             rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
-%         catch
-%             f_lock_motor(motor_ctrl_data(:,:,1));
-%         end
+        % try
+            rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
+            motor_feedback(:, t, :) = f_feedback_log(rx, MOTOR_NUM);
+        % catch
+        %     f_lock_motor(motor_ctrl_data(:,:,1));
+        % end
         fprintf("Times: %d \n", t)
+        pause(0.01);
     end
     clear serial_port;
     

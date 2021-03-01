@@ -4,7 +4,7 @@
 
 function msg = f_get_rx_msg(rx, num)
     if rx(1) == '{' && rx(6 + num*7) == '}'
-        msg = zero(num, 4);
+        msg = zeros(num, 4);
         for i = 1:num
             rx_data = f_data_rx_convert(rx((4 + (i-1)*7) : (10 + (i-1)*7)));
             msg(i, 1) = rx_data(1);
@@ -14,5 +14,6 @@ function msg = f_get_rx_msg(rx, num)
         end
     else
         msg = "RX data error !";
+        fprintf("RX data error !\n");
     end
 end
