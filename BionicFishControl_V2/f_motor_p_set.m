@@ -12,7 +12,7 @@ function p_curve = f_motor_p_set(motor_num, T_LIMIT, ctrl_mode)
     if ctrl_mode == "P_Ctrl"
         switch motor_num
         case 1 % id: 
-            A     = (pi/2);
+            A     = (pi/8);
             omega = 5;
             p_curve = A * sin(omega * (prec:prec:T_LIMIT/(1/prec)));
         case 2 % id: 

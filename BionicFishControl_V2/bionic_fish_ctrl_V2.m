@@ -8,21 +8,22 @@ clear; clc; close all;
 STORAGE_DATA = "Yes";
 
 %% Parameter initialize
-T_LIMIT = 5000;
+T_LIMIT = 100;
  
 % 1: unlock;     2: lock; 
 % 3: set zero;  4: motor control
 mode  = 4;
 
 % 1: enable; 0: disable 
-AUTO_UNLOCK = 1;
+AUTO_MOTOR_ON = 1;
 
 % "P_Ctrl", "V_Ctrl", "T_Ctrl"
 ctrl_mode = "V_Ctrl";
 
 % Motor id array
-% motor_id_list = [5, 2, 18, 16, 17, 9, 4, 1];
-motor_id_list = [3];
+% motor_id_list = [17, 9, 4, 1, 5, 2, 18, 16];
+% motor_id_list = [1,2,3,4,5,9,16,17];
+motor_id_list = [17,16,9,5,4,3,2,1];
 
 [~, MOTOR_NUM] = size(motor_id_list);
 
@@ -36,9 +37,9 @@ motor_input    = zeros(MOTOR_NUM, T_LIMIT, 5);
 %% Set motor to zero
 f_set_zero(motor_id_list);
 
-if AUTO_UNLOCK == 1
+if AUTO_MOTOR_ON == 1
 %% Auto unlock motor
-    f_unlock_motor(motor_id_list);
+    f_motor_on(motor_id_list);
 end
 
 %% Motor parameter
@@ -73,11 +74,11 @@ fprintf("Connect: "); fprintf(port); fprintf("\n");
 
 %% Unlock motor
 if mode == 1
-    f_unlock_motor(motor_id_list);
+    f_motor_on(motor_id_list);
 
 %% Lock motor
 elseif mode == 2
-    f_lock_motor(motor_id_list);
+    f_motor_off(motor_id_list);
 
 %% Set zero
 elseif mode == 3
@@ -87,17 +88,14 @@ elseif mode == 3
 elseif mode == 4
     %% Control motor
     serial_port = f_set_serialport(port);
+%     configureCallback(serial_port, "terminater", f_rx_data);
     for t = 1:1:T_LIMIT
         msg = f_get_tx_msg(motor_ctrl_data, MOTOR_NUM, t);
         write(serial_port, msg, "uint8");
-        % try
-            rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
-            motor_feedback(:, t, :) = f_feedback_log(rx, MOTOR_NUM);
-        % catch
-        %     f_lock_motor(motor_ctrl_data(:,:,1));
-        % end
+        rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
+        motor_feedback(:, t, :) = f_feedback_log(rx, MOTOR_NUM);
         fprintf("Times: %d \n", t)
-        pause(0.01);
+%         pause(0.01);
     end
     clear serial_port;
     
@@ -105,10 +103,9 @@ elseif mode == 4
         save('motor_data.mat', 'motor_input', 'motor_feedback');
     end
 
+    %% lock motor
+    f_motor_off(motor_id_list);
     for num = 1:1:MOTOR_NUM
         f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
     end
-    
-    %% lock motor
-    f_lock_motor(motor_id_list);
 end

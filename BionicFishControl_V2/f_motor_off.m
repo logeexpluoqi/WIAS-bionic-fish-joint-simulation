@@ -1,9 +1,9 @@
 % @Author: luoqi 
-% @Date: 2021-01-23 14:24:35 
+% @Date: 2021-01-23 14:25:20 
 % @Last Modified by:   luoqi 
 
-function f_unlock_motor(id_list)
-    mode = 1;
+function f_motor_off(id_list)
+    mode = 2;
     [~, num] = size(id_list);
     com = seriallist;
     serial_port = f_set_serialport(com);
