@@ -8,9 +8,9 @@ clear; clc; close all;
 STORAGE_DATA = "Yes";
 
 %% Parameter initialize
-T_LIMIT = 100;
+T_LIMIT = 1000;
  
-% 1: unlock;     2: lock; 
+% 1: power on;     2: power off; 
 % 3: set zero;  4: motor control
 mode  = 4;
 
@@ -22,8 +22,9 @@ ctrl_mode = "V_Ctrl";
 
 % Motor id array
 % motor_id_list = [17, 9, 4, 1, 5, 2, 18, 16];
-% motor_id_list = [1,2,3,4,5,9,16,17];
-motor_id_list = [17,16,9,5,4,3,2,1];
+% motor_id_list = [1,2,3,4,5,9,18,17];
+motor_id_list = [17,18,9,5,4,3,2,1];
+% motor_id_list = 18;
 
 [~, MOTOR_NUM] = size(motor_id_list);
 
@@ -69,7 +70,7 @@ for num = 1:1:MOTOR_NUM
 end
 
 %% COM port
-port = seriallist;
+port = serialportlist;
 fprintf("Connect: "); fprintf(port); fprintf("\n");
 
 %% Unlock motor
@@ -94,8 +95,7 @@ elseif mode == 4
         write(serial_port, msg, "uint8");
         rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
         motor_feedback(:, t, :) = f_feedback_log(rx, MOTOR_NUM);
-        fprintf("Times: %d \n", t)
-%         pause(0.01);
+        fprintf("Times: %d \n", t);
     end
     clear serial_port;
     
