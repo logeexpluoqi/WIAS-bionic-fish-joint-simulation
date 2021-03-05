@@ -105,7 +105,7 @@ elseif mode == 4
 
     %% lock motor
     f_motor_off(motor_id_list);
-    for num = 1:1:MOTOR_NUM
-        f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
-    end
+%     for num = 1:1:MOTOR_NUM
+%         f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
+%     end
 end

@@ -17,8 +17,17 @@ function f_motor_on(id_list)
     end
 
     write(serial_port, msg, "uint8");
-    rx = read(serial_port, 14, "uint8");
-    fprintf("%s\n",rx);
+    rx = read(serial_port, num*2 + 6, "uint8");
+    
+    if (rx(1) == '{') && (rx(num*2 + 6) == '}') && (rx(2) == 1) && ((rx(3) + 6) == (num*2 + 6))
+        for i=1:num
+            fprintf("ID: %2d, ", rx(4+(i-1)*2));
+            fprintf("State: %2d\n ", rx(5+(i-1)*2));
+        end 
+    else
+        fprintf("** MOTOR ON FEEDBACK ERROR ! **\n");
+        fprintf("%s\n",rx);
+    end
     
     clear serial_port;
 end
