@@ -20,9 +20,10 @@ function f_motor_off(id_list)
     rx = read(serial_port, num*2 + 6, "uint8");
     
     if (rx(1) == '{') && (rx(num*2 + 6) == '}') && (rx(2) == 2) && ((rx(3) + 6) == (num*2 + 6))
+        fprintf(" ** MOTOR POWER OFF ** \n ");
         for i=1:num
-            fprintf("ID: %2d, ", rx(4+(i-1)*2));
-            fprintf("State: %2d\n ", rx(5+(i-1)*2));
+            fprintf("   ID: %2d, ", rx(4+(i-1)*2));
+            fprintf("State: %d\n ", rx(5+(i-1)*2));
         end 
     else
         fprintf("** MOTOR OFF FEEDBACK ERROR ! **\n");

@@ -3,7 +3,7 @@
 % @Last Modified by:   luoqi 
 
 function msg = f_get_rx_msg(rx, num)
-    if rx(1) == '{' && rx(6 + num*7) == '}'
+    if rx(1) == '{' && rx(6 + rx(3)) == '}' && num == rx(3)/7
         msg = zeros(num, 4);
         for i = 1:num
             rx_data = f_data_rx_convert(rx((4 + (i-1)*7) : (10 + (i-1)*7)));
