@@ -6,7 +6,7 @@ clear; clc; close all;
 
 %% Storage data
 STORAGE_DATA = "YES";
-DISPLAY_DATA = "NO";
+DISPLAY_DATA = "YES";
 
 %% Parameter initialize
 T_LIMIT = 100;
@@ -25,7 +25,6 @@ ctrl_mode = "V_Ctrl";
 % motor_id_list = [17, 9, 4, 1, 5, 2, 18, 16];
 % motor_id_list = [1,2,3,4,5,9,18,17];
 motor_id_list = [17,18,9,5,4,3,2,1];
-% motor_id_list = [1, 2];
 
 [~, MOTOR_NUM] = size(motor_id_list);
 
@@ -94,8 +93,7 @@ elseif mode == 4
     for t = 1:1:T_LIMIT
         msg = f_get_tx_msg(motor_ctrl_data, MOTOR_NUM, t);
         write(serial_port, msg, "uint8");
-        rx = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
-        motor_feedback(:, t, :) = f_feedback_log(rx, MOTOR_NUM);
+        motor_feedback(:, t, :) = f_get_rx_msg(read(serial_port, 6 + MOTOR_NUM*7, "uint8"), MOTOR_NUM);
         fprintf(" - Times: %d \n", t);
     end
     clear serial_port;
