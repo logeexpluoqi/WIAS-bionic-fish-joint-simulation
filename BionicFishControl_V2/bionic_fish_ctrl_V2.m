@@ -23,8 +23,7 @@ ctrl_mode = "V_Ctrl";
 
 % Motor id array
 % motor_id_list = [17, 9, 4, 1, 5, 2, 18, 16];
-% motor_id_list = [1,2,3,4,5,9,18,17];
-motor_id_list = [17,18,9,5,4,3,2,1];
+motor_id_list = [1,2,3,4,5,9,17,18];
 
 [~, MOTOR_NUM] = size(motor_id_list);
 
@@ -104,6 +103,11 @@ elseif mode == 4
 
     %% lock motor
     f_motor_off(motor_id_list);
+    
+    %% Adjust feedback data ID order, correspond to input data ID
+    motor_feedback = f_feedback_reshape(motor_feedback, motor_id_list);
+
+    %% Display feedback data.
     if DISPLAY_DATA == "YES"
         for num = 1:1:MOTOR_NUM
             f_data_show(num, motor_input, motor_feedback, T_LIMIT, ctrl_mode);
